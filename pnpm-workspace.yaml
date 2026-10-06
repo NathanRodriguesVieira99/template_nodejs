@@ -1,3 +1,0 @@
-allowBuilds:
-  esbuild: true
-  git-commit-msg-linter: true
