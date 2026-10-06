@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "lib": ["es2024"],
+    "module": "nodenext",
+    "target": "es2024",
+    "types": ["node", "vitest/globals"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    "noEmit": true,
+    "noImplicitAny": false,
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["./"],
+  "exclude": ["node_modules", "dist"]
+}

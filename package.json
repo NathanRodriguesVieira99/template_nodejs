@@ -1,0 +1,40 @@
+{
+  "author": "@NathanRodriguesVieira99",
+  "name": "template_nodejs",
+  "version": "0.0.0",
+  "main": "main.ts",
+  "engines": {
+    "node": "24.21.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "start:dev": "tsx watch --env-file=.env.dev src/main.ts",
+    "start:prod": "node dist/main.cjs",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest --watch",
+    "prepare": "husky"
+  },
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "@types/sinon": "^22.0.0",
+    "axios": "^1.20.0",
+    "git-commit-msg-linter": "^5.0.10",
+    "husky": "^9.1.7",
+    "knex": "^3.3.0",
+    "nock": "^14.0.17",
+    "sinon": "^22.1.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.3.0",
+    "fastify": "^5.12.5",
+    "kafkajs": "^2.2.4",
+    "pg": "^8.23.1",
+    "pg-promise": "^12.7.1"
+  }
+}
