@@ -10,7 +10,7 @@ export interface MessageBroker {
   produce<Payload>(message: Message<Payload>): Promise<void>;
   consume<Payload>(
     name: string,
-    handler: (message: Message<Payload>) => Promise<void>,
+    handler: (consumedMessage: Message<Payload>) => Promise<void>,
   ): Promise<void>;
   disconnect(): Promise<void>;
 }
