@@ -1,12 +1,15 @@
 import { FastifyAdapter } from "./external/http/fastify.adapter.ts";
 import { PGPromiseAdapter } from "./external/database/pg-promise.adapter.ts";
 import { KafkaJsAdapter } from "./external/messaging/kafkajs.adapter.ts";
+import type { HttpServer } from "./infra/http/http-server.ts";
+import type { DatabaseConnection } from "./infra/database/database-connection.ts";
+import type { MessageBroker } from "./infra/messaging/message-broker.ts";
 
-const httpServer = new FastifyAdapter();
-const databaseConnection = new PGPromiseAdapter(
+const httpServer: HttpServer = new FastifyAdapter();
+const databaseConnection: DatabaseConnection = new PGPromiseAdapter(
   String(process.env.DATABASE_URL),
 );
-const messageBroker = new KafkaJsAdapter(
+const messageBroker: MessageBroker = new KafkaJsAdapter(
   [String(process.env.KAFKA_BROKER)],
   "groupId",
   "clientId",
