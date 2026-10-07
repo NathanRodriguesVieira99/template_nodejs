@@ -4,12 +4,11 @@ import { Http, type HttpServer } from "../../infra/http/http-server.ts";
 
 export class FastifyAdapter implements HttpServer {
   private app: FastifyInstance;
-
   constructor() {
     this.app = fastify();
     this.app.register(fastifyCors, {
       origin: true,
-      methods: [...Http.AcceptedMethodsList],
+      methods: [...Http.methods],
     });
   }
 

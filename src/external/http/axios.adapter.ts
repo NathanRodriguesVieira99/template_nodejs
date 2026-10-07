@@ -4,13 +4,12 @@ import { Http } from "@/infra/http/http-server.ts";
 
 export class AxiosAdapter implements HttpClient {
   private instance: AxiosInstance;
-  private baseURL: string;
   constructor() {
     this.instance = axios;
-    this.baseURL = "http://localhost:3000/api/v1";
   }
 
   async request<Response, RequestBody>({
+    url,
     endpoint,
     method,
     headers,
@@ -19,7 +18,7 @@ export class AxiosAdapter implements HttpClient {
   }: HttpRequest<RequestBody>): Promise<Response> {
     try {
       const { data } = await this.instance.request<Response>({
-        url: `${this.baseURL}${endpoint}`,
+        url: `${url}${endpoint}`,
         method,
         headers,
         data: body,

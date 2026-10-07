@@ -8,11 +8,17 @@ export class PGPromiseAdapter implements DatabaseConnection {
   }
 
   async query(statement: string, params: any[]): Promise<any> {
-    const rows = await this.connection.query<Response[]>(statement, params);
+    const normalizedStatement = this.normalizeStatement(statement);
+    const rows = await this.connection.query(normalizedStatement, params);
     return rows;
   }
 
   async close(): Promise<void> {
     await this.connection.$pool.end();
+  }
+
+  private normalizeStatement(statement: string): string {
+    let index = 0;
+    return statement.toLocaleLowerCase().replace(/\?/gi, () => `$${++index}`);
   }
 }
