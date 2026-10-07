@@ -9,8 +9,8 @@ export class KafkaJsAdapter implements MessageBroker {
   private readonly consumer: Consumer;
   constructor(brokers: string[], groupId: string, clientId: string) {
     const kafka = new Kafka({ brokers, clientId });
-    this.producer = kafka.producer();
-    this.consumer = kafka.consumer({ groupId });
+    this.producer = kafka.producer({ allowAutoTopicCreation: true });
+    this.consumer = kafka.consumer({ groupId, allowAutoTopicCreation: true });
   }
 
   async connect(): Promise<void> {
@@ -18,23 +18,26 @@ export class KafkaJsAdapter implements MessageBroker {
     await this.consumer.connect();
   }
 
-  async produce<P>(message: Message<P>): Promise<void> {
-    await this.producer.send({
-      topic: message.name,
-      messages: [{ key: message.id, value: JSON.stringify(message) }],
-    });
+  async produce<Payload>(message: Message<Payload>): Promise<void> {
+    const topic = message.name;
+    const messages = [{ key: message.id, value: JSON.stringify(message) }];
+    await this.producer.send({ topic, messages });
   }
 
-  async consume<P>(
+  async consume<Payload>(
     name: string,
-    handler: (message: Message<P>) => Promise<void>,
+    handler: (consumedMessage: Message<Payload>) => Promise<void>,
   ): Promise<void> {
-    await this.consumer.subscribe({ topic: name });
+    await this.consumer.subscribe({ topic: name, fromBeginning: true });
     await this.consumer.run({
-      eachMessage: async ({ message }) => {
-        if (!message.value) return;
-        const event = JSON.parse(message.value.toString()) as Message<P>;
-        await handler(event);
+      eachMessage: async ({ message: kafkaMessage }) => {
+        if (!kafkaMessage.value) return;
+        const parsedMessage = JSON.parse(kafkaMessage.value.toString());
+        const consumedMessage: Message<Payload> = {
+          ...parsedMessage,
+          occurredAt: new Date(parsedMessage.occurredAt),
+        };
+        await handler(consumedMessage);
       },
     });
   }
