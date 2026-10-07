@@ -1,6 +1,7 @@
 import fastify, { FastifyInstance } from "fastify";
 import fastifyCors from "@fastify/cors";
 import { Http, type HttpServer } from "../../infra/http/http-server.ts";
+import logger from "@/logger.ts";
 
 export class FastifyAdapter implements HttpServer {
   private app: FastifyInstance;
@@ -14,7 +15,7 @@ export class FastifyAdapter implements HttpServer {
 
   listen(port: number): void {
     this.app.listen({ port });
-    console.log(
+    logger.info(
       `Server running with Fastify on port ${port} at http://localhost:${port}`,
     );
   }
