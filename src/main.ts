@@ -4,6 +4,7 @@ import { KafkaJsAdapter } from "./external/messaging/kafkajs.adapter.ts";
 import type { HttpServer } from "./infra/http/http-server.ts";
 import type { DatabaseConnection } from "./infra/database/database-connection.ts";
 import type { MessageBroker } from "./infra/messaging/message-broker.ts";
+import logger from "./logger.ts";
 
 const httpServer: HttpServer = new FastifyAdapter();
 const databaseConnection: DatabaseConnection = new PGPromiseAdapter(
@@ -25,9 +26,9 @@ const gracefulShutdown = async () => {
     await httpServer.close();
     await messageBroker.disconnect();
     await databaseConnection.close();
-    console.log("Application terminated");
+    logger.info("Application terminated");
   } catch (error: any) {
-    console.error(
+    logger.error(
       `Error on shutdown application: ${error.message}, stack: ${error.stack}`,
     );
   }
