@@ -3,6 +3,7 @@ import type {
   Message,
   MessageBroker,
 } from "@/infra/messaging/message-broker.ts";
+import logger from "@/logger.ts";
 
 export class KafkaJsAdapter implements MessageBroker {
   private readonly producer: Producer;

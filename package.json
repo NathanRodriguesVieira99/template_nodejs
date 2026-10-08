@@ -3,19 +3,19 @@
   "name": "template_nodejs",
   "version": "0.2.0",
   "main": "main.ts",
+  "license": "MIT",
+  "type": "module",
   "engines": {
     "node": "24.21.0"
   },
   "scripts": {
     "build": "tsup",
-    "start:dev": "tsx watch --env-file=.env.dev src/main.ts | pino-pretty",
-    "start:prod": "node dist/main.cjs",
+    "start:dev": "tsx watch --env-file=.env.dev src/main.ts",
+    "start:prod": "node --env-file=.env dist/main.js",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest --watch",
     "prepare": "husky"
   },
-  "license": "MIT",
-  "type": "module",
   "devDependencies": {
     "@types/node": "^26.6.4",
     "@types/sinon": "^22.0.0",
@@ -32,10 +32,22 @@
   },
   "dependencies": {
     "@fastify/cors": "^11.3.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.81.0",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.223.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.223.0",
+    "@opentelemetry/host-metrics": "^0.39.0",
+    "@opentelemetry/instrumentation-http": "^0.223.0",
+    "@opentelemetry/instrumentation-kafkajs": "^0.32.0",
+    "@opentelemetry/instrumentation-pg": "^0.75.0",
+    "@opentelemetry/instrumentation-pino": "^0.69.0",
+    "@opentelemetry/sdk-metrics": "^2.12.0",
+    "@opentelemetry/sdk-node": "^0.223.0",
     "fastify": "^5.12.5",
     "kafkajs": "^2.2.4",
     "pg": "^8.23.1",
     "pg-promise": "^12.7.1",
-    "pino": "^10.4.0"
+    "pino": "^10.4.0",
+    "pino-loki": "^3.0.0",
+    "pino-opentelemetry-transport": "^4.0.2"
   }
 }
