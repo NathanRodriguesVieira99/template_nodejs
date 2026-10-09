@@ -1,5 +1,6 @@
 import "./otel.ts";
 import logger from "./logger.ts";
+import { shutdownTelemetry } from "./otel.ts";
 import { FastifyAdapter } from "./external/http/fastify.adapter.ts";
 import { PGPromiseAdapter } from "./external/database/pg-promise.adapter.ts";
 import { KafkaJsAdapter } from "./external/messaging/kafkajs.adapter.ts";
@@ -25,8 +26,9 @@ const gracefulShutdown = async () => {
   isShuttingDown = true;
   try {
     await httpServer.close();
-    await messageBroker.disconnect();
     await databaseConnection.close();
+    await messageBroker.disconnect();
+    await shutdownTelemetry();
     logger.info("Application terminated");
   } catch (error: any) {
     logger.error(
