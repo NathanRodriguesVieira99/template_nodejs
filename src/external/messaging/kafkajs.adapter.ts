@@ -1,9 +1,8 @@
-import { Kafka, type Consumer, type Producer } from "kafkajs";
+import { Kafka, type Consumer, type Producer } from "@ousiaresearch/kafkajs";
 import type {
   Message,
   MessageBroker,
 } from "@/infra/messaging/message-broker.ts";
-import logger from "@/logger.ts";
 
 export class KafkaJsAdapter implements MessageBroker {
   private readonly producer: Producer;
