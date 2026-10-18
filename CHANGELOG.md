@@ -1,3 +1,5 @@
+## [0.4.2](https://github.com/NathanRodriguesVieira99/template_nodejs/compare/v0.4.1...v0.4.2) (2026-10-18)
+
 ## [0.4.1](https://github.com/NathanRodriguesVieira99/template_nodejs/compare/v0.4.0...v0.4.1) (2026-10-18)
 
 ## [0.4.0](https://github.com/NathanRodriguesVieira99/template_nodejs/compare/v0.3.0...v0.4.0) (2026-10-18)
@@ -30,6 +32,4 @@
 ### Bug Fixes
 
 * add esm formatting to tsup build ([391d1a9](https://github.com/NathanRodriguesVieira99/template_nodejs/commit/391d1a972269df9e24eeb53fa5e120ad7c6ab10a))
-
-## [0.1.1](https://github.com/NathanRodriguesVieira99/template_nodejs/compare/v0.1.0...v0.1.1) (2026-10-07)
 
