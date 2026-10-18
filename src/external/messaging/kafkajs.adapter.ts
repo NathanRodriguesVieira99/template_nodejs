@@ -34,9 +34,9 @@ export class KafkaJsAdapter implements MessageBroker {
   ): Promise<void> {
     await this.consumer.subscribe({ topic: name, fromBeginning: true });
     await this.consumer.run({
-      eachMessage: async ({ message: kafkaMessage }) => {
-        if (!kafkaMessage.value) return;
-        const parsedMessage = JSON.parse(kafkaMessage.value.toString());
+      eachMessage: async ({ message }) => {
+        if (!message.value) return;
+        const parsedMessage = JSON.parse(message.value.toString());
         const consumedMessage: Message<Payload> = {
           ...parsedMessage,
           occurredAt: new Date(parsedMessage.occurredAt),
