@@ -10,6 +10,10 @@
   },
   "scripts": {
     "build": "tsup",
+    "docker:up": "docker compose up -d",
+    "docker:stop": "docker compose stop",
+    "docker:restart": "docker compose restart",
+    "docker:down": "docker compose down",
     "start:dev": "tsx watch --env-file=.env.dev src/main.ts",
     "start:prod": "node --env-file=.env dist/main.js",
     "test": "vitest run --passWithNoTests",
@@ -47,7 +51,6 @@
     "pg": "^8.23.1",
     "pg-promise": "^12.7.1",
     "pino": "^10.4.0",
-    "pino-loki": "^3.0.0",
-    "pino-opentelemetry-transport": "^4.0.2"
+    "pino-loki": "^3.0.0"
   }
 }
