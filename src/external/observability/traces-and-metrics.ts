@@ -26,7 +26,3 @@ const sdk = new NodeSDK({
   ],
 });
 sdk.start();
-
-export const shutdownTelemetry = async (): Promise<void> => {
-  await sdk.shutdown();
-};

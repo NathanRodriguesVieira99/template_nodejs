@@ -1,10 +1,12 @@
-import type { DatabaseConnection } from "@/infra/database/database-connection.ts";
+import logger from "@/external/observability/logger.ts";
 import pgPromise from "pg-promise";
+import type { DatabaseConnection } from "@/infra/database/database-connection.ts";
 
 export class PGPromiseAdapter implements DatabaseConnection {
   private readonly connection: pgPromise.IDatabase<{}>;
   constructor(databaseURL: string) {
     this.connection = pgPromise()(databaseURL);
+    logger.info("PostgreSQL database connected");
   }
 
   async query(statement: string, params: any[]): Promise<any> {

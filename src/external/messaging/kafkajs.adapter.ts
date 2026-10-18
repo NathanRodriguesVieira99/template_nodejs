@@ -1,4 +1,5 @@
 import { Kafka, type Consumer, type Producer } from "@ousiaresearch/kafkajs";
+import logger from "@/external/observability/logger.ts";
 import type {
   Message,
   MessageBroker,
@@ -16,6 +17,9 @@ export class KafkaJsAdapter implements MessageBroker {
   async connect(): Promise<void> {
     await this.producer.connect();
     await this.consumer.connect();
+    logger.info(
+      "Kafka Message Broker connected. Kafka-UI on http://localhost:8080",
+    );
   }
 
   async produce<Payload>(message: Message<Payload>): Promise<void> {
