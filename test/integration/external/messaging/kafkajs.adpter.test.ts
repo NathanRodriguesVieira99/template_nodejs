@@ -36,17 +36,14 @@ describe("KafkaJsAdapter", () => {
     };
     let receivedMessage: Message<typeof payload> | undefined;
     await sut.produce<typeof payload>(message);
-    await new Promise<void>((resolve, reject) => {
-      sut
-        .consume<typeof payload>(
-          message.name,
-          async (consumedMessage: Message<typeof payload>) => {
-            counter++;
-            receivedMessage = consumedMessage;
-            resolve();
-          },
-        )
-        .catch(reject);
+    await new Promise<void>((resolve) => {
+      const name = message.name;
+      const handler = async (consumedMessage: Message<typeof payload>) => {
+        counter++;
+        receivedMessage = consumedMessage;
+        resolve();
+      };
+      sut.consume<typeof payload>(name, handler);
     });
     expect(counter).toBe(1);
     expect(receivedMessage).toEqual(message);
