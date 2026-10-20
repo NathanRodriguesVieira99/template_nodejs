@@ -1,6 +1,6 @@
 import axios, { type AxiosError, type AxiosInstance } from "axios";
-import type { HttpClient, HttpRequest } from "@/infra/http/http-client.ts";
 import { Http } from "@/infra/http/http-server.ts";
+import type { HttpClient, HttpRequest } from "@/infra/http/http-client.ts";
 
 export class AxiosAdapter implements HttpClient {
   private instance: AxiosInstance;
@@ -21,14 +21,13 @@ export class AxiosAdapter implements HttpClient {
         url: `${url}${endpoint}`,
         method,
         headers,
-        data: body,
         params,
+        data: body,
       });
       return data;
-    } catch (er) {
-      const error = er as AxiosError;
-      const status =
-        error.response?.status ?? Http.Status.INTERNAL_SERVER_ERROR;
+    } catch (err) {
+      const error = err as AxiosError;
+      const status = error.response?.status ?? Http.Status.INTERNAL_SERVER_ERROR;
       const message = error.response?.data ?? error.message;
       throw new Error(`Request failed with status ${status} : ${message}`);
     }

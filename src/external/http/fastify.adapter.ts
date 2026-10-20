@@ -1,15 +1,16 @@
-import logger from "@/external/observability/logger.ts";
-import fastify, { FastifyInstance } from "fastify";
+import fastify from "fastify";
 import fastifyCors from "@fastify/cors";
+import logger from "@/external/observability/logger.ts";
 import { Http, type HttpServer } from "../../infra/http/http-server.ts";
+import type { FastifyInstance } from "fastify";
 
 export class FastifyAdapter implements HttpServer {
   private app: FastifyInstance;
   constructor() {
     this.app = fastify();
     this.app.register(fastifyCors, {
-      origin: true,
       methods: [...Http.methods],
+      origin: true,
     });
   }
 
@@ -22,11 +23,7 @@ export class FastifyAdapter implements HttpServer {
     await this.app?.close();
   }
 
-  register(
-    method: Http.Method,
-    url: string,
-    callback: (request: Http.Request) => Promise<Http.Response>,
-  ): void {
+  register(method: Http.Method, url: string, callback: (request: Http.Request) => Promise<Http.Response>): void {
     this.app.route({
       method,
       url,
@@ -39,7 +36,7 @@ export class FastifyAdapter implements HttpServer {
           const output = await callback(input);
           reply.status(output.status).send(output.body);
         } catch (error: any) {
-          // TODO
+          logger.error(error);
         }
       },
     });

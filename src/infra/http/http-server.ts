@@ -1,13 +1,7 @@
 export namespace Http {
   export type Request = { params?: unknown; body?: unknown };
   export type Response = { status: Http.Status; body: unknown };
-  export const methods = [
-    "GET",
-    "POST",
-    "PUT",
-    "PATCH",
-    "DELETE",
-  ] as const;
+  export const methods = ["GET", "POST", "PUT", "PATCH", "DELETE"] as const;
   export type Method = (typeof methods)[number];
   export enum Status {
     OK = 200,
@@ -26,12 +20,8 @@ export namespace Http {
   }
 }
 
-export interface HttpServer {
+export type HttpServer = {
   listen(port: number): void;
   close(): Promise<void>;
-  register(
-    method: Http.Method,
-    url: string,
-    callback: (request: Http.Request) => Promise<Http.Response>,
-  ): void;
-}
+  register(method: Http.Method, url: string, callback: (request: Http.Request) => Promise<Http.Response>): void;
+};

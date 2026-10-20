@@ -1,18 +1,11 @@
 import { randomUUID } from "node:crypto";
 import { KafkaJsAdapter } from "@/external/messaging/kafkajs.adapter.ts";
-import type {
-  Message,
-  MessageBroker,
-} from "@/infra/messaging/message-broker.ts";
+import type { Message, MessageBroker } from "@/infra/messaging/message-broker.ts";
 
 let sut: MessageBroker;
 
 beforeAll(async () => {
-  sut = new KafkaJsAdapter(
-    [String(process.env.KAFKA_BROKER)],
-    `test-groupId`,
-    `test-clientId`,
-  );
+  sut = new KafkaJsAdapter([String(process.env.KAFKA_BROKER)], `test-groupId`, `test-clientId`);
   await sut.connect();
 });
 

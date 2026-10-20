@@ -1,9 +1,5 @@
 import { Kafka, type Consumer, type Producer } from "@ousiaresearch/kafkajs";
-import logger from "@/external/observability/logger.ts";
-import type {
-  Message,
-  MessageBroker,
-} from "@/infra/messaging/message-broker.ts";
+import type { Message, MessageBroker } from "@/infra/messaging/message-broker.ts";
 
 export class KafkaJsAdapter implements MessageBroker {
   private readonly producer: Producer;
@@ -11,15 +7,12 @@ export class KafkaJsAdapter implements MessageBroker {
   constructor(brokers: string[], groupId: string, clientId: string) {
     const kafka = new Kafka({ brokers, clientId });
     this.producer = kafka.producer({ allowAutoTopicCreation: true });
-    this.consumer = kafka.consumer({ groupId, allowAutoTopicCreation: true });
+    this.consumer = kafka.consumer({ allowAutoTopicCreation: true, groupId });
   }
 
   async connect(): Promise<void> {
     await this.producer.connect();
     await this.consumer.connect();
-    logger.info(
-      "Kafka Message Broker connected. Kafka-UI on http://localhost:8080",
-    );
   }
 
   async produce<Payload>(message: Message<Payload>): Promise<void> {
@@ -28,10 +21,7 @@ export class KafkaJsAdapter implements MessageBroker {
     await this.producer.send({ topic, messages });
   }
 
-  async consume<Payload>(
-    name: string,
-    handler: (consumedMessage: Message<Payload>) => Promise<void>,
-  ): Promise<void> {
+  async consume<Payload>(name: string, handler: (consumedMessage: Message<Payload>) => Promise<void>): Promise<void> {
     await this.consumer.subscribe({ topic: name, fromBeginning: true });
     await this.consumer.run({
       eachMessage: async ({ message }) => {

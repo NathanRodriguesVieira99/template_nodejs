@@ -8,9 +8,6 @@ export interface Message<Payload = unknown> {
 export interface MessageBroker {
   connect(): Promise<void>;
   produce<Payload>(message: Message<Payload>): Promise<void>;
-  consume<Payload>(
-    name: string,
-    handler: (consumedMessage: Message<Payload>) => Promise<void>,
-  ): Promise<void>;
+  consume<Payload>(name: string, handler: (consumedMessage: Message<Payload>) => Promise<void>): Promise<void>;
   disconnect(): Promise<void>;
 }

@@ -1,9 +1,9 @@
 import nock from "nock";
 import sinon from "sinon";
+import axios from "axios";
+import { Http } from "@/infra/http/http-server.ts";
 import { AxiosAdapter } from "@/external/http/axios.adapter.ts";
 import type { HttpClient } from "@/infra/http/http-client.ts";
-import { Http } from "@/infra/http/http-server.ts";
-import axios from "axios";
 
 let sut: HttpClient;
 
@@ -48,20 +48,17 @@ describe("AxiosAdapter", () => {
     const url = "http://localhost:3000/api/v1";
     const endpoint = "/test";
     const responseHttpCode = Http.Status.OK;
-    const queryParams = { page: 1, perPage: 10 };
+    const params = { page: 1, perPage: 10 };
     const headers = { "Content-Type": "application/json" };
     const responseBody = { data: "test data" };
-    nock(url)
-      .get(endpoint)
-      .query(queryParams)
-      .reply(responseHttpCode, responseBody);
+    nock(url).get(endpoint).query(params).reply(responseHttpCode, responseBody);
     const getSpy = sinon.spy(axios, "request");
     const response = await sut.request<typeof responseBody, never>({
       url,
       endpoint,
       method: "GET",
       body: undefined,
-      params: queryParams,
+      params,
       headers,
     });
     expect(getSpy.calledOnce).toBeTruthy();
@@ -70,7 +67,7 @@ describe("AxiosAdapter", () => {
         url: `${url}${endpoint}`,
         method: "GET",
         data: undefined,
-        params: queryParams,
+        params,
         headers,
       }),
     ).toBeTruthy();
@@ -84,16 +81,14 @@ describe("AxiosAdapter", () => {
     const responseBody = { data: "test data" };
     nock(url).post(endpoint).reply(responseHttpCode, responseBody);
     const getSpy = sinon.spy(axios, "request");
-    const response = await sut.request<typeof responseBody, typeof requestBody>(
-      {
-        url,
-        endpoint,
-        method: "POST",
-        body: requestBody,
-        params: undefined,
-        headers: undefined,
-      },
-    );
+    const response = await sut.request<typeof responseBody, typeof requestBody>({
+      url,
+      endpoint,
+      method: "POST",
+      body: requestBody,
+      params: undefined,
+      headers: undefined,
+    });
     expect(getSpy.calledOnce).toBeTruthy();
     expect(
       getSpy.calledWith({
@@ -114,16 +109,14 @@ describe("AxiosAdapter", () => {
     const responseBody = { data: "test data" };
     nock(url).post(endpoint).reply(responseHttpCode, responseBody);
     const getSpy = sinon.spy(axios, "request");
-    const response = await sut.request<typeof responseBody, typeof requestBody>(
-      {
-        url,
-        endpoint,
-        method: "POST",
-        body: requestBody,
-        params: undefined,
-        headers: undefined,
-      },
-    );
+    const response = await sut.request<typeof responseBody, typeof requestBody>({
+      url,
+      endpoint,
+      method: "POST",
+      body: requestBody,
+      params: undefined,
+      headers: undefined,
+    });
     expect(getSpy.calledOnce).toBeTruthy();
     expect(
       getSpy.calledWith({

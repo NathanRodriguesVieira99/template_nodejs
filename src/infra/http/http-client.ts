@@ -9,7 +9,7 @@ export type HttpRequest<RequestBody = unknown> = {
   body?: RequestBody;
 };
 
-export interface HttpClient {
+export type HttpClient = {
   request: <Response, RequestBody>({
     url,
     endpoint,
@@ -18,4 +18,4 @@ export interface HttpClient {
     params,
     body,
   }: HttpRequest<RequestBody>) => Promise<Response>;
-}
+};

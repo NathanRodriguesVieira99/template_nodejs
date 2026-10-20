@@ -8,21 +8,20 @@ import { NodeSDK } from "@opentelemetry/sdk-node";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 
 const sdk = new NodeSDK({
-  serviceName: process.env.OTEL_SERVICE_NAME,
-  traceExporter: new OTLPTraceExporter({
-    url: process.env.OTEL_EXPORTER_OTLP_TRACES_ENDPOINT,
-  }),
-  metricReader: new PeriodicExportingMetricReader({
-    exporter: new OTLPMetricExporter({
-      url: process.env.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT,
-    }),
-  }),
-
   instrumentations: [
     new HttpInstrumentation(),
     new KafkaJsInstrumentation(),
     new PgInstrumentation(),
     new PinoInstrumentation(),
   ],
+  metricReader: new PeriodicExportingMetricReader({
+    exporter: new OTLPMetricExporter({
+      url: process.env.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT,
+    }),
+  }),
+  serviceName: process.env.OTEL_SERVICE_NAME,
+  traceExporter: new OTLPTraceExporter({
+    url: process.env.OTEL_EXPORTER_OTLP_TRACES_ENDPOINT,
+  }),
 });
 sdk.start();
