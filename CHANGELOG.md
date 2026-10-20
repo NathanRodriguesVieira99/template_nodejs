@@ -1,3 +1,5 @@
+## [0.4.4](https://github.com/NathanRodriguesVieira99/template_nodejs/compare/v0.4.3...v0.4.4) (2026-10-20)
+
 ## [0.4.3](https://github.com/NathanRodriguesVieira99/template_nodejs/compare/v0.4.2...v0.4.3) (2026-10-20)
 
 ## [0.4.2](https://github.com/NathanRodriguesVieira99/template_nodejs/compare/v0.4.1...v0.4.2) (2026-10-18)
@@ -15,11 +17,4 @@
 ### Bug Fixes
 
 * replace kafkajs lib by well maintained lib ([21c64fe](https://github.com/NathanRodriguesVieira99/template_nodejs/commit/21c64fe47d2e32c92f8be29e0f06c934c35b33b9))
-
-## [0.3.0](https://github.com/NathanRodriguesVieira99/template_nodejs/compare/v0.2.0...v0.3.0) (2026-10-08)
-
-
-### Features
-
-* implement otel collector to collect logs,traces and metrics ([bc75bc6](https://github.com/NathanRodriguesVieira99/template_nodejs/commit/bc75bc65677e9ad90661c54de1cc6cafea0ad23b))
 
