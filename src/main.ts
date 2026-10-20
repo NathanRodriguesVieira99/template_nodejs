@@ -7,16 +7,10 @@ import type { HttpServer } from "./infra/http/http-server.ts";
 import type { DatabaseConnection } from "./infra/database/database-connection.ts";
 import type { MessageBroker } from "./infra/messaging/message-broker.ts";
 
-const httpServer: HttpServer = new FastifyAdapter();
-const databaseConnection: DatabaseConnection = new PGPromiseAdapter(
-  String(process.env.DATABASE_URL),
-);
-const messageBroker: MessageBroker = new KafkaJsAdapter(
-  [String(process.env.KAFKA_BROKER)],
-  "groupId",
-  "clientId",
-);
+const messageBroker: MessageBroker = new KafkaJsAdapter([String(process.env.KAFKA_BROKER)], "groupId", "clientId");
 await messageBroker.connect();
+const databaseConnection: DatabaseConnection = new PGPromiseAdapter(String(process.env.DATABASE_URL));
+const httpServer: HttpServer = new FastifyAdapter();
 httpServer.listen(Number(process.env.PORT));
 
 let isShuttingDown = false;
@@ -29,9 +23,7 @@ const gracefulShutdown = async () => {
     await messageBroker.disconnect();
     logger.info("Application terminated");
   } catch (error: any) {
-    logger.error(
-      `Error on shutdown application: ${error.message}, stack: ${error.stack}`,
-    );
+    logger.error(`Error on shutdown application: ${error.message}, stack: ${error.stack}`);
   }
 };
 
