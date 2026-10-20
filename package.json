@@ -9,7 +9,7 @@
     "node": "24.21.0"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsup --tsconfig tsconfig.build.json src/main.ts --format esm",
     "docker:up": "docker compose up -d",
     "docker:stop": "docker compose stop",
     "docker:restart": "docker compose restart",
