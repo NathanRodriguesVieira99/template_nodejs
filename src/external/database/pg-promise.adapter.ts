@@ -1,9 +1,11 @@
 import pgPromise from "pg-promise";
 import type { DatabaseConnection } from "@/infra/database/database-connection.ts";
+import logger from "../observability/logger.ts";
 
 export class PGPromiseAdapter implements DatabaseConnection {
   private readonly connection: pgPromise.IDatabase<{}>;
   constructor(databaseURL: string) {
+    logger.info("Database connected");
     this.connection = pgPromise()(databaseURL);
   }
 
@@ -14,6 +16,7 @@ export class PGPromiseAdapter implements DatabaseConnection {
   }
 
   async close(): Promise<void> {
+    logger.info("Database connection closed");
     await this.connection.$pool.end();
   }
 

@@ -1,5 +1,6 @@
 import { Kafka, type Consumer, type Producer } from "@ousiaresearch/kafkajs";
 import type { Message, MessageBroker } from "@/infra/messaging/message-broker.ts";
+import logger from "../observability/logger.ts";
 
 export class KafkaJsAdapter implements MessageBroker {
   private readonly producer: Producer;
@@ -11,6 +12,7 @@ export class KafkaJsAdapter implements MessageBroker {
   }
 
   async connect(): Promise<void> {
+    logger.info("Message Broker connected");
     await this.producer.connect();
     await this.consumer.connect();
   }
@@ -37,6 +39,7 @@ export class KafkaJsAdapter implements MessageBroker {
   }
 
   async disconnect(): Promise<void> {
+    logger.info("Message Broker connection closed");
     await this.producer.disconnect();
     await this.consumer.disconnect();
   }

@@ -1,8 +1,7 @@
-import fastify from "fastify";
+import fastify, { type FastifyInstance } from "fastify";
 import fastifyCors from "@fastify/cors";
 import logger from "@/external/observability/logger.ts";
 import { Http, type HttpServer } from "../../infra/http/http-server.ts";
-import type { FastifyInstance } from "fastify";
 
 export class FastifyAdapter implements HttpServer {
   private app: FastifyInstance;
@@ -16,10 +15,11 @@ export class FastifyAdapter implements HttpServer {
 
   listen(port: number): void {
     this.app.listen({ port });
-    logger.info(`HTTP Server running with Fastify on http://localhost:${port}`);
+    logger.info(`HTTP Server running on http://localhost:${port}`);
   }
 
   async close(): Promise<void> {
+    logger.info("HTTP Server connection closed");
     await this.app?.close();
   }
 

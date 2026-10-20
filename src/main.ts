@@ -1,4 +1,4 @@
-import "./external/observability/traces-and-metrics.ts";
+import "./external/observability/instrumentation.ts";
 import logger from "./external/observability/logger.ts";
 import { FastifyAdapter } from "./external/http/fastify.adapter.ts";
 import { PGPromiseAdapter } from "./external/database/pg-promise.adapter.ts";
@@ -21,11 +21,9 @@ const gracefulShutdown = async () => {
     await httpServer.close();
     await databaseConnection.close();
     await messageBroker.disconnect();
-    logger.info("Application terminated");
   } catch (error: any) {
     logger.error(`Error on shutdown application: ${error.message}, stack: ${error.stack}`);
   }
 };
-
 process.on("SIGTERM", gracefulShutdown);
 process.on("SIGINT", gracefulShutdown);
