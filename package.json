@@ -1,7 +1,7 @@
 {
   "author": "@NathanRodriguesVieira99",
   "name": "template_nodejs",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "main": "main.ts",
   "license": "MIT",
   "type": "module",
